@@ -147,3 +147,4 @@ OBJECT := "object"
 DYNAMIC_TYPE := "var"
 UNDEFINED := NULL
 
+catch_statement := ts?, "catch (Exception)"

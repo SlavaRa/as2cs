@@ -151,7 +151,8 @@ property_list := property, (ts?, COMMA, ts?, property)*
 key := quoted_identifier / literal
 
 statement := ts?, 
-    block 
+    block
+    / try_catch_finally_statement
     / if_statement
     / iteration_statement
     / (
@@ -308,3 +309,8 @@ UNDERSCORE := "_"
 APOS := "'"
 QUOTE := '"'
 IN_ITERATOR := "in"
+
+try_catch_finally_statement := try_statement / catch_statement / finally_statement
+try_statement := ts?, "try"
+catch_statement := ts?, "catch", ts?, LPAREN, !, argument_declaration, RPAREN
+finally_statement := ts?, "finally"
