@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 using /*<com>*/Finegamedesign.Utils/*<DataUtil>*/;
 namespace /*<com>*/Finegamedesign.Powerplant
 {
@@ -21,12 +20,10 @@ namespace /*<com>*/Finegamedesign.Powerplant
         public List<List<int>> theirField;
         public int yourScore;
         public int theirScore;
-        
         public Rule()
         {
             Reset();
         }
-        
         /**
          * After hand appears.
          * Generate deck with tutorial at first, then full deck.
@@ -60,7 +57,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             yourScore = 0;
             theirScore = 0;
         }
-        
         /* Deal one card to your hand. */
         public int Deal(List<int> hand)
         {
@@ -68,7 +64,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             hand.Add(dealt);
             return dealt;
         }
-        
         public static List<int> GenerateDeck()
         {
             List<int> cards = new List<int>();
@@ -82,7 +77,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return cards;
         }
-        
         /**
          * @param    cards  In-place.
          */
@@ -96,7 +90,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return cards;
         }
-        
         /* At least one frame beforehand, Contract must exist.
          * Move card from deck to contract.
          * DOES NOT yet check if deck has one or fewer cards.  */
@@ -110,7 +103,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             contractCards.Add(onesValue);
             return contractCards;
         }
-        
         /* We keep our hand and score.  We discard the rest.
          * Discard stacks and city contract.  */
         public void Clear()
@@ -119,12 +111,10 @@ namespace /*<com>*/Finegamedesign.Powerplant
             this.yourField = new List<List<int>>();
             this.theirField = new List<List<int>>();
         }
-        
         public void Discard(List<int> hand, int value)
         {
             hand.RemoveRange(hand.IndexOf(value), 1);
         }
-        
         public void PlayCard(bool you, int value, int stackIndex)
         {
             List<List<int>> field = you ? yourField : theirField;
@@ -136,13 +126,11 @@ namespace /*<com>*/Finegamedesign.Powerplant
             List<int> stack = field[stackIndex];
             stack.Add(value);
         }
-        
         public bool EqualsContract(bool you)
         {
             List<List<int>> field = you ? yourField : theirField;
             return contract == Calculate.Power(field);
         }
-        
         public int TallestStackInField(List<List<int>> field)
         {
             int max = 0;
@@ -153,13 +141,11 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return max;
         }
-        
         public int TallestStack()
         {
             return Mathf.Max(TallestStackInField(yourField),
             TallestStackInField(theirField));
         }
-        
         /**
          * Add to score for anyone by length of anyone's longest stack.
          * @return  If anyone scored.

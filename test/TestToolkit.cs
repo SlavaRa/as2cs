@@ -5,8 +5,7 @@
  * http://answers.unity3d.com/questions/610988/unit-testing-unity-test-tools-v10-namespace-nunit.html
  */
 using NUnit.Framework;
-namespace testSyntax{
-    [TestFixture]
+namespace TestSyntax{[TestFixture]
     internal class TestToolkit
     {
         [Test]

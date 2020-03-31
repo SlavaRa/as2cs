@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 using /*<com>*/Finegamedesign.Utils/*<Model>*/;
 namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
 {
@@ -16,7 +15,6 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
                 cards[i] = swap;
             }
         }
-        
         internal string helpState;
         internal int letterMax = 10;
         internal List<string> inputs = new List<string>();
@@ -39,24 +37,16 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
         internal string state;
         internal TestSyntaxLevels levels = new TestSyntaxLevels();
         private List<string> available;
-        private Dictionary<string, dynamic> repeat = new Dictionary<string, dynamic>(){
-        }
-        ;
+        private Dictionary<string, object> repeat = new Dictionary<string, object>(){};
         private List<string> selects;
-        private Dictionary<string, dynamic> wordHash;
+        private Dictionary<string, object> wordHash;
         private bool isVerbose = false;
-        
         public TestSyntaxModel()
         {
-            wordHash = new Dictionary<string, dynamic>(){
-                {
-                    "aa", true}
-            }
-            ;
+            wordHash = new Dictionary<string, object>(){{"aa", true}};
             Trial(levels.GetParams());
         }
-        
-        internal void Trial(Dictionary<string, dynamic> parameters)
+        internal void Trial(Dictionary<string, object> parameters)
         {
             wordPosition = 0.0f;
             help = "";
@@ -92,36 +82,28 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
                 wordWidthPerSecond *= Mathf.Pow(baseRate, power);
             }
             selects = DataUtil.CloneList(word);
-            repeat = new Dictionary<string, dynamic>(){
-            }
-            ;
+            repeat = new Dictionary<string, object>(){};
             if (isVerbose) Debug.Log("Model.trial: word[0]: <" + word[0] + ">");
         }
-        
         private int previous = 0;
         private int now = 0;
-        
         internal void UpdateNow(int cumulativeMilliseconds)
         {
             float deltaSeconds = (now - previous) / 1000.0f;
             Update(deltaSeconds);
             previous = now;
         }
-        
         internal void Update(float deltaSeconds)
         {
             UpdatePosition(deltaSeconds);
         }
-        
         internal float width = 720;
         internal float scale = 1.0f;
         private float wordWidthPerSecond;
-        
         internal void ScaleToScreen(float screenWidth)
         {
             scale = screenWidth / width;
         }
-        
         /**
          * Test case:  2015-03 Use Mac. Rosa Zedek expects to read key to change level.
          */
@@ -136,7 +118,6 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             wordPosition = Mathf.Max(min, Mathf.Min(0, wordPosition));
         }
-        
         private void UpdatePosition(float seconds)
         {
             wordPosition += (seconds * width * wordWidthPerSecond);
@@ -144,14 +125,11 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             wordPositionScaled = wordPosition * scale;
             if (isVerbose) Debug.Log("Model.updatePosition: " + wordPosition);
         }
-        
         private float outputKnockback = 0.0f;
-        
         internal bool MayKnockback()
         {
             return 0 < outputKnockback && 1 <= DataUtil.Length(outputs);
         }
-        
         /**
          * Clamp word to appear on screen.  Test case:  2015-04-18 Complete word.  See next word slide in.
          */
@@ -167,7 +145,6 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             ClampWordPosition();
         }
-        
         internal bool OnOutputHitsWord()
         {
             bool enabled = MayKnockback();
@@ -189,16 +166,13 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             return enabled;
         }
-        
         /**
          * @param   justPressed     Filter signature justPressed(letter):Boolean.
          */
         internal List<string> GetPresses(/*<Function>*/IsJustPressed justPressed)
         {
             List<string> presses = new List<string>();
-            Dictionary<string, dynamic> letters = new Dictionary<string, dynamic>(){
-            }
-            ;
+            Dictionary<string, object> letters = new Dictionary<string, object>(){};
             for (int i = 0; i < DataUtil.Length(available); i++)
             {
                 string letter = available[i];
@@ -217,16 +191,13 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             return presses;
         }
-        
         /**
          * If letter not available, disable typing it.
          * @return Vector of word indexes.
          */
         internal List<int> Press(List<string> presses)
         {
-            Dictionary<string, dynamic> letters = new Dictionary<string, dynamic>(){
-            }
-            ;
+            Dictionary<string, object> letters = new Dictionary<string, object>(){};
             List<int> selectsNow = new List<int>();
             for (int i = 0; i < DataUtil.Length(presses); i++)
             {
@@ -254,7 +225,6 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             return selectsNow;
         }
-        
         internal List<int> Backspace()
         {
             List<int> selectsNow = new List<int>();
@@ -271,7 +241,6 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             }
             return selectsNow;
         }
-        
         /**
          * @return animation state.
          *      "submit" or "complete":  Word shoots. Test case:  2015-04-18 Anders sees word is a weapon.
@@ -315,7 +284,7 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
                             state = "complete";
                             if (null != onComplete)
                             {
-                                onComplete();
+                                OnComplete();
                             }
                         }
                         else
@@ -332,13 +301,11 @@ namespace /*<com>*/Finegamedesign.Anagram.TestSyntax
             selects = DataUtil.CloneList(word);
             return state;
         }
-        
         private void ScoreUp(string submission)
         {
             points = DataUtil.Length(submission);
             score += points;
         }
-        
         internal void CheatLevelUp(int add)
         {
             score = 0;

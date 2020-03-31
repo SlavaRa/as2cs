@@ -1,8 +1,7 @@
 using NUnit.Framework;
 using /*<com>*/Finegamedesign.Utils/*<DataUtil>*/;
 namespace /*<com>*/Finegamedesign.Powerplant
-{
-    [TestFixture] public class TestRule
+{[TestFixture] public class TestRule
     {
         [Test] public void PlayCard()
         {
@@ -15,7 +14,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             rule.PlayCard(true, 3, 0);
             Assert.AreEqual(3, Calculate.Power(rule.yourField));
         }
-        
         [Test] public void EqualsContract()
         {
             Rule rule = new Rule();
@@ -28,7 +26,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             Assert.AreEqual(true, rule.EqualsContract(true));
             Assert.AreEqual(false, rule.EqualsContract(false));
         }
-        
         [Test] public void TallestStack()
         {
             Rule rule = new Rule();
@@ -38,7 +35,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             rule.yourField = DataUtil.ToList(DataUtil.ToList(1, 1, 1, 1));
             Assert.AreEqual(4, rule.TallestStack());
         }
-        
         [Test] public void Score()
         {
             Rule rule = new Rule();

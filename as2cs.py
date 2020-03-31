@@ -3,7 +3,6 @@ Converts some ActionScript syntax to C# syntax, and some C# to ActionScript.
     cd as2cs
 """
 
-
 import codecs
 from collections import Iterable
 from os import path
@@ -13,7 +12,6 @@ from simpleparse.error import ParserSyntaxError
 from simpleparse.parser import Parser
 from simpleparse.simpleparsegrammar import declaration
 from simpleparse.common import strings, comments, numbers, chartypes, SOURCES
-
 
 cfg = {
     'source': 'as',
@@ -39,10 +37,11 @@ first_letter_case_tags = {
 
 ebnf_parser = Parser(declaration, 'declarationset')
 
-
 source_keys = [key for source in SOURCES
-    for key in source.keys()]
+               for key in source.keys()]
 source_keys.sort()
+
+
 ## print(pformat(source_keys))
 
 
@@ -51,12 +50,12 @@ def reset():
         literals['DECLARED_TYPE'] = literals['DECLARED_TYPE_ORIGINAL']
     for direction in ['as', 'cs']:
         if 'DECLARED_TYPE' in literals[direction] \
-        and 'DECLARED_TYPE_ORIGINAL' in literals[direction]:
+                and 'DECLARED_TYPE_ORIGINAL' in literals[direction]:
             literals[direction]['DECLARED_TYPE'] = literals[direction]['DECLARED_TYPE_ORIGINAL']
     data_types.clear()
 
 
-def change_first_letter_case(to, tag, text, data_types = {}):
+def change_first_letter_case(to, tag, text, data_types={}):
     """
     >>> change_first_letter_case('as', 'function_identifier', 'doThis')
     'doThis'
@@ -107,6 +106,7 @@ def merge_declarations(declarations):
     "IMPORT := \t 'using'"
     """
     names = {}
+
     def new_declarations(parser, input):
         text = ''
         taglist = parser.parse(input)
@@ -119,6 +119,7 @@ def merge_declarations(declarations):
                     text += input[begin:end]
         ## text += pformat(taglist)
         return text
+
     texts = []
     for input in reversed(declarations):
         text = new_declarations(ebnf_parser, input)
@@ -154,7 +155,7 @@ def set_tags(tags, grammar_text, value):
 
 
 def find_text(text, parts,
-        names = ['CHARNOSNGLQUOTE', 'CHARNODBLQUOTE']):
+              names=['CHARNOSNGLQUOTE', 'CHARNODBLQUOTE']):
     """
     If no match, return nothing.
     >>> grammar = "import := 'using'"
@@ -193,7 +194,7 @@ def find_text(text, parts,
         return found
 
 
-def find_texts(text, name, parts, not_followed_by = None, not_preceded_by = None):
+def find_texts(text, name, parts, not_followed_by=None, not_preceded_by=None):
     """
     >>> parts = [('VARIABLE', 0, 3, None),
     ...  ('whitespacechar', 3, 4, None),
@@ -267,7 +268,7 @@ def find_literals(grammar_text):
     return literals
 
 
-def replace_literals(a_grammar, b_grammar, literals = None):
+def replace_literals(a_grammar, b_grammar, literals=None):
     """
     >>> replaces = replace_literals(grammars['as'], grammars['cs'], literals['cs'])
     >>> replaces.get('IMPORT')
@@ -282,6 +283,7 @@ def replace_literals(a_grammar, b_grammar, literals = None):
     """
     if literals is None:
         literals = find_literals(b_grammar)
+
     def replace_declaration(replaces, original_strings, grammar_text):
         taglist = ebnf_parser.parse(grammar_text)[1]
         for tag, begin, end, parts in taglist:
@@ -294,6 +296,7 @@ def replace_literals(a_grammar, b_grammar, literals = None):
                     if literal:
                         replaces[name] = literal
                 original_strings[name] = text
+
     replaces = {}
     original_strings = {}
     replace_declaration(replaces, original_strings, a_grammar)
@@ -324,7 +327,7 @@ def tag_order(grammar_text):
     optional_occurences = ['*', '?', '/']
     lookahead_or_negatives = ['-', '?', '/']
     order = find_texts(grammar_text, 'name', taglist, optional_occurences,
-        lookahead_or_negatives)[1:]
+                       lookahead_or_negatives)[1:]
     return order
 
 
@@ -358,6 +361,7 @@ def tags_to_reorder(a_grammar, b_grammar):
     >>> reorder_tags = tags_to_reorder(longer, shorter)
     {'a': ['b']}
     """
+
     def reorder_declaration(reorders, original_tags, grammar_text):
         taglist = ebnf_parser.parse(grammar_text)
         for tag, begin, end, parts in taglist[1]:
@@ -371,6 +375,7 @@ def tags_to_reorder(a_grammar, b_grammar):
                         if order_tags:
                             reorders[name] = order_tags
                 original_tags[name] = order_tags
+
     reorders = {}
     original_tags = {}
     reorder_declaration(reorders, original_tags, a_grammar)
@@ -656,7 +661,7 @@ def may_import(taglist, text, definition, to):
     return text
 
 
-def convert(input, definition = 'compilation_unit'):
+def convert(input, definition='compilation_unit'):
     """
     Example of converting syntax from ActionScript to C#.
 
@@ -745,11 +750,23 @@ def convert_files(source_paths):
     reset()
     original_source = cfg['source']
     original_to = cfg['to']
+    source_paths = get_files(source_paths, [])
     for source_path, to_path in analogous_paths(source_paths):
         print('Converting %s to %s' % (source_path, to_path))
         convert_file(source_path, to_path)
     cfg['source'] = original_source
     cfg['to'] = original_to
+
+
+def get_files(source_paths, result):
+    for source_path in source_paths:
+        if path.isdir(source_path):
+            import os
+            list = [path.join(source_path, it) for it in os.listdir(source_path)]
+            get_files(list, result)
+        elif path.splitext(source_path)[1][1:] == "as":
+            result.append(source_path)
+    return result
 
 
 def compare_file(source_path, to_path):
@@ -814,12 +831,13 @@ set_tags(different_tags, open('as_and_cs.g').read(), False)
 
 data_types = {}
 
-
 if '__main__' == __name__:
     from argparse import ArgumentParser
+
     parser = ArgumentParser(description=__doc__)
     parser.add_argument('file', nargs='*', help='Files to convert (with extension .as or .cs).')
-    parser.add_argument('--to', help='Syntax to convert to.  Default is inferred from extension.  Options are: as or cs')
+    parser.add_argument('--to',
+                        help='Syntax to convert to.  Default is inferred from extension.  Options are: as or cs')
     parser.add_argument('--test', action='store_true', help='Run unit tests.')
     args = parser.parse_args()
     if args.to:
@@ -828,6 +846,7 @@ if '__main__' == __name__:
         parser.print_help()
     elif args.test:
         from doctest import testmod
+
         testmod()
     else:
         convert_files(args.file)

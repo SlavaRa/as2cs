@@ -1,30 +1,25 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
 using /*<com>*/Finegamedesign.Utils/*<DataUtil>*/;
 namespace Monster
-{
-    /**
+{    /**
      * Portable.  Independent of platform.
      */
     public class MonsterModel
     {
         internal ArrayList cityNames;
         internal int level = 1;
-        internal int length;
-        internal Dictionary<string, dynamic> changes;
+        internal int size;
+        internal Dictionary<string, object> changes;
         internal int population;
         internal int health;
-        internal Dictionary<string, dynamic> represents;
+        internal Dictionary<string, object> represents;
         internal int result = 0;
         internal int resultNow = 0;
         internal int selectCount = 0;
         internal int selected = 0;
-        internal ArrayList gridClassNames = new ArrayList(){
-            null, "City", "Forest"}
-        ;
-        
+        internal ArrayList gridClassNames = new ArrayList(){null, "City", "Forest"};
         private int vacancy;
         private int cellWidth;
         private int cellHeight;
@@ -34,18 +29,10 @@ namespace Monster
         private int heightInCells;
         private float period = 2.0f;
         private float accumulated = 0.0f;
-        
-        private ArrayList grid = new ArrayList(){
-        }
-        ;
-        private ArrayList gridPreviously = new ArrayList(){
-        }
-        ;
-        
+        private ArrayList grid = new ArrayList(){};
+        private ArrayList gridPreviously = new ArrayList(){};
         public MonsterModel()
-        {
-        }
-        
+        {}
         internal void Restart()
         {
             resultNow = 0;
@@ -57,7 +44,6 @@ namespace Monster
             ClearGrid(2);
             RandomlyPlace(grid);
         }
-        
         private void InitGrid(ArrayList grid, int cellWidth, int cellHeight)
         {
             this.cellWidth = Mathf.Ceil(cellWidth);
@@ -71,8 +57,7 @@ namespace Monster
             ClearGrid(0);
             gridPreviously = DataUtil.CloneList(grid);
         }
-        
-        private ArrayList ToGrid(Dictionary<string, dynamic> represents, ArrayList cityNames)
+        private ArrayList ToGrid(Dictionary<string, object> represents, ArrayList cityNames)
         {
             width = Mathf.Ceil(represents.spawnArea.width);
             height = Mathf.Ceil(represents.spawnArea.height);
@@ -87,12 +72,11 @@ namespace Monster
                 int row = Mathf.Floor(child.y / cellHeight);
                 grid[row * widthInCells + column] = 1;
             }
-            length = DataUtil.Length(grid);
+            size = DataUtil.Length(grid);
             // trace(grid);
             return grid;
         }
-        
-        internal void Represent(Dictionary<string, dynamic> represents)
+        internal void Represent(Dictionary<string, object> represents)
         {
             this.represents = represents;
             cityNames = Model.Keys(represents.spawnArea, "city");
@@ -103,7 +87,6 @@ namespace Monster
                 RandomlyPlace(grid);
             }
         }
-        
         /**
          *
         Torri expects isometric grid.
@@ -138,7 +121,7 @@ namespace Monster
                 if (row < heightInCells - 1)
                 {
                     int down = (row+1) * widthInCells + column;
-                    if (down < length)
+                    if (down < size)
                     {
                         gridNext[down] = 1;
                         if (column + columnOffset < widthInCells - 1)
@@ -149,7 +132,6 @@ namespace Monster
                 }
             }
         }
-        
         private void ExpandTopDown(ArrayList grid, int row, int column, ArrayList gridNext)
         {
             int index = (row) * widthInCells + column;
@@ -174,7 +156,6 @@ namespace Monster
                 }
             }
         }
-        
         private ArrayList Grow(ArrayList grid)
         {
             // trace("grow:   " + grid);
@@ -188,17 +169,13 @@ namespace Monster
             }
             return gridNext;
         }
-        
         private float OffsetWidth(int row)
         {
             return (row % 2) * cellWidth * 0.5f;
         }
-        
-        private Dictionary<string, dynamic> Change(ArrayList gridPreviously, ArrayList grid)
+        private Dictionary<string, object> change(ArrayList gridPreviously, ArrayList grid)
         {
-            Dictionary<string, dynamic> changes = new Dictionary<string, dynamic>(){
-            }
-            ;
+            Dictionary<string, object> changes = new Dictionary<string, object>(){};
             int count = 0;
             for (int row = 0; row < heightInCells; row++)
             {
@@ -208,9 +185,7 @@ namespace Monster
                     if (grid[index] != gridPreviously[index]) {
                         if (null == changes.spawnArea)
                         {
-                            changes.spawnArea = new Dictionary<string, dynamic>(){
-                            }
-                            ;
+                            changes.spawnArea = new Dictionary<string, object>(){};
                         }
                         for (int g = 1; g < DataUtil.Length(gridClassNames); g++)
                         {
@@ -222,25 +197,14 @@ namespace Monster
                                 count++;
                                 if (g == grid[index])
                                 {
-                                    changes.spawnArea[name] = new Dictionary<string, dynamic>(){
-                                        {
-                                            "x", cellWidth * column + cellWidth * 0.5f + OffsetWidth(row)}
-                                        ,
-                                        {
-                                            "y", cellHeight * row + cellHeight * 0.5f}
-                                        ,
-                                        {
-                                            "visible", true}
-                                    }
-                                    ;
+                                    changes.spawnArea[name] = new Dictionary<string, object>(){
+                                        {"x", cellWidth * column + cellWidth * 0.5f + OffsetWidth(row)},
+                                        {"y", cellHeight * row + cellHeight * 0.5f},
+                                        {"visible", true}};
                                 }
                                 else
                                 {
-                                    changes.spawnArea[name] = new Dictionary<string, dynamic>(){
-                                        {
-                                            "visible", false}
-                                    }
-                                    ;
+                                    changes.spawnArea[name] = new Dictionary<string, object>(){{"visible", false}};
                                 }
                             }
                         }
@@ -249,7 +213,6 @@ namespace Monster
             }
             return changes;
         }
-        
         internal void Update(float deltaSeconds)
         {
             accumulated += deltaSeconds;
@@ -274,11 +237,10 @@ namespace Monster
                 }
                 period = UpdatePeriod(population, vacancy);
             }
-            changes = Change(gridPreviously, grid);
+            changes = change(gridPreviously, grid);
             cityNames = Model.Keys(changes.spawnArea, "city");
             gridPreviously = DataUtil.CloneList(grid);
         }
-        
         private int Count(ArrayList counts, int value)
         {
             int sum = 0;
@@ -291,10 +253,8 @@ namespace Monster
             }
             return sum;
         }
-        
         private float startingPlaces = 2;
         // 2;
-        
         /**
          * Slow to keep trying if there were lot of starting places, but there aren't.
          */
@@ -309,7 +269,6 @@ namespace Monster
             // startingPlaces += 0.125;
             // 0.25;
         }
-        
         // 120.0;
         // 90.0;
         // 80.0;
@@ -317,7 +276,6 @@ namespace Monster
         // 40.0;
         // 20.0;
         private float periodBase = 120.0f;
-        
         private float UpdatePeriod(int population, int vacancy)
         {
             float period = 999999.0f;
@@ -341,7 +299,6 @@ namespace Monster
             }
             return period;
         }
-        
         private int Win()
         {
             resultNow = result == 0 ? 0 : result;
@@ -360,7 +317,6 @@ namespace Monster
             resultNow = resultNow == 0 ? result : 0;
             return resultNow;
         }
-        
         internal bool Select(string name)
         {
             ArrayList parts = DataUtil.Split(name, "_");
@@ -376,7 +332,6 @@ namespace Monster
             }
             return isExplosion;
         }
-        
         internal int SelectCell(int row, int column)
         {
             int index = row * widthInCells + column;
@@ -392,7 +347,6 @@ namespace Monster
             // trace("select: " + grid);
             return was;
         }
-        
         internal void ClearGrid(int value)
         {
             DataUtil.Clear(grid);

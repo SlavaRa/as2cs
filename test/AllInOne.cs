@@ -11,7 +11,6 @@ namespace /*<com>*/Finegamedesign.Anagram
     public sealed class AllInOne : EmptyClass // implements IModel, IController
     {
         private static string _cache = "";
-        
         /**
          * Set cache.
          */
@@ -21,13 +20,10 @@ namespace /*<com>*/Finegamedesign.Anagram
             // trace("setTest: " + _cache);
             string test = "test";
             _cache = test;
-            
         }
-        
         public int index;
         public float x;
         public float y;
-        
         public AllInOne(float x=.0f, float y=0.0f, int index=-1)
         {
             this.x = x;

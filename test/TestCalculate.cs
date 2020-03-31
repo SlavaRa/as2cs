@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-
 using NUnit.Framework;
 namespace /*<com>*/Finegamedesign.Powerplant
-{
-    [TestFixture] public class TestCalculate
+{[TestFixture] public class TestCalculate
     {
         /**
          * No stack.  Empty stack.
@@ -17,7 +15,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             stacks.Add(stack);
             Assert.AreEqual(0, Calculate.Power(stacks));
         }
-        
         /**
          * No stack.  Empty stack.
          * Stack of 2.  2 stacks.

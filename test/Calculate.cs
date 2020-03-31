@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using /*<com>*/Finegamedesign.Utils/*<DataUtil>*/;
 namespace /*<com>*/Finegamedesign.Powerplant
 {
@@ -29,7 +28,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return power;
         }
-        
         /**
          * Multiply cards in stack.  Add stack products.
          * Example @see TestCalculate.as
@@ -59,7 +57,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return description;
         }
-        
         private static void RemoveEmpty(List<List<int>> stacks)
         {
             for (int s = DataUtil.Length(stacks) - 1; 0 <= s; s--) {
@@ -68,7 +65,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
                 }
             }
         }
-        
         /**
          * Select a card from hand that plays on a stack to match contract,
          * or most nearly approaches contract without going over.
@@ -91,7 +87,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return stacks_valid;
         }
-        
         /**
          * Select a card from hand that plays on a stack to match contract,
          * or most nearly approaches contract without going over.
@@ -119,7 +114,6 @@ namespace /*<com>*/Finegamedesign.Powerplant
             }
             return value_and_stack;
         }
-        
         public static List<List<int>> Clone(List<List<int>> stacks)
         {
             List<List<int>> copy = new List<List<int>>();

@@ -7,6 +7,5 @@ using /*<com>*/Finegamedesign.Anagram/*<View>*/;
 namespace /*<com>*/Finegamedesign.Anagram {
 // This class is empty.
 public class EmptyClass
-{
-}
+{}
 }
