@@ -155,6 +155,7 @@ statement := ts?,
     / try_catch_finally_statement
     / if_statement
     / iteration_statement
+    / switch_case_default
     / (
         primary_expression, ts?, !, SEMICOLON
     )
@@ -314,3 +315,8 @@ try_catch_finally_statement := try_statement / catch_statement / finally_stateme
 try_statement := ts?, "try"
 catch_statement := ts?, "catch", ts?, LPAREN, !, argument_declaration, RPAREN
 finally_statement := ts?, "finally"
+
+switch_case_default := switch_statement / case_statement / default_statement
+switch_statement := ts?, "switch", conditional_clause
+case_statement := ts?, "case", ts, address, COLON
+default_statement := ts?, "default", ts?, COLON
