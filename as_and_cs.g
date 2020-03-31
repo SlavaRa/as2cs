@@ -285,7 +285,7 @@ AND := "&&"
 BIT_NOT := "~"
 
 statement_place := statement*
-iteration_statement := for_in_statement / for_statement / do_statement / while_statement
+iteration_statement := for_each_statement / for_in_statement / for_statement / do_statement / while_statement
 for_statement := ts?, FOR, ts?, LPAREN, !, statement, statement, expression_list?, RPAREN, statement
 FOR := "for"
 while_statement := ts?, WHILE, conditional_clause, statement

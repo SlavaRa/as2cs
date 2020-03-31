@@ -538,6 +538,8 @@ definitions = [
          'for (int i = cards.Count - 1; 1 <= i; i--){}'],
         ['for (var i:int=0; i <= L; i -= s){}',
          'for (int i=0; i <= L; i -= s){}'],
+        ['for each(var value:String in items){text += value; a = value;}',
+         'foreach(string value in items){text += value; a = value;}'],
      ]),
      ('member_expression', [
         ['  internal var /*<delegate>*/ ActionDelegate:/*<void>*/*;',

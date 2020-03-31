@@ -53,6 +53,7 @@ NEW_HASH_TABLE := "new Dictionary<string, object>()"
 property := LBRACE, ts?, key, ts?, COMMA, ts, expression, ts?, RBRACE
 quoted_identifier := QUOTE, identifier, QUOTE
 
+for_each_statement := ts?, FOR_IN, ts?, LPAREN, ts?, iterator, ts, IN_ITERATOR, !, ts, expression, ts?, RPAREN, ts?, LBRACE, statement_place, ts?, RBRACE
 
 for_in_statement := ts?, FOR_IN, ts?, LPAREN, ts?, STRING_HASH_ENTRY, ts, IN_ITERATOR, !, ts, expression, ts?, RPAREN, ts?, LBRACE, iterator, ASSIGN_KEY, ts, statement_place, ts?, RBRACE
 variable_declared := ts?, argument_declared

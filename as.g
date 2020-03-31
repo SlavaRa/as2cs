@@ -58,6 +58,9 @@ hash_literal_suffix := RBRACE
 property := key, ts?, COLON, ts, expression
 quoted_identifier := identifier
 
+for_each_statement := ts?, "for each", ts?, LPAREN, iterator, ts, IN_ITERATOR, !, ts, expression, ts?, RPAREN, ts?, LBRACE, statement_place, ts?, RBRACE
+variable_declared := ts?, VARIABLE, ts, argument_declared
+
 for_in_statement := ts?, FOR_IN, ts?, LPAREN, iterator, ts, IN_ITERATOR, !, ts, expression, ts?, RPAREN, ts?, LBRACE, statement_place, ts?, RBRACE
 variable_declared := ts?, VARIABLE, ts, argument_declared
 FOR_IN := "for"
