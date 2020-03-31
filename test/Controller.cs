@@ -26,7 +26,7 @@ namespace Monster
          */
         public static void Visit(Dictionary<string, object> parent, Dictionary<string, object> changes)
         {
-            foreach(KeyValuePair<string, object> _entry in changes){string key = _entry.Key;
+            foreach(var _entry in changes){string key = _entry.Key;
                 var change = changes[key];
                 var child = parent[key];
                 if (IsObject(change))

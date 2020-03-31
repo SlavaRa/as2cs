@@ -321,7 +321,7 @@ Features
 
   C#:
 
-        foreach (KeyValuePair<string, object> item in items) {
+        foreach (var item in items) {
             string key = item.Key;
             text += key;
         }

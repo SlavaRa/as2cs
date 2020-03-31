@@ -57,7 +57,7 @@ for_each_statement := ts?, FOR_IN, ts?, LPAREN, ts?, iterator, ts, IN_ITERATOR, 
 
 for_in_statement := ts?, FOR_IN, ts?, LPAREN, ts?, STRING_HASH_ENTRY, ts, IN_ITERATOR, !, ts, expression, ts?, RPAREN, ts?, LBRACE, iterator, ASSIGN_KEY, ts, statement_place, ts?, RBRACE
 variable_declared := ts?, argument_declared
-STRING_HASH_ENTRY := "KeyValuePair<string, object> _entry"
+STRING_HASH_ENTRY := "var _entry"
 ASSIGN_KEY := " = _entry.Key;"
 FOR_IN := "foreach"
 

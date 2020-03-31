@@ -18,7 +18,7 @@ namespace Monster
             ArrayList childNames = new ArrayList(){};
             if (null != represents)
             {
-                foreach(KeyValuePair<string, object> _entry in represents){string name = _entry.Key;
+                foreach(var _entry in represents){string name = _entry.Key;
                     if (object.ReferenceEquals(0, name.IndexOf(prefix)))
                     {
                         childNames.Add(name);

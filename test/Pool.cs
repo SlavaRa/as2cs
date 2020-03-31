@@ -12,7 +12,7 @@ namespace Monster
         public static Dictionary<string, object> Construct(/*<Function>*/FactoryDelegate1 factory, Dictionary<string, object> classNameCounts)
         {
             Dictionary<string, object> pools = new Dictionary<string, object>(){};
-            foreach(KeyValuePair<string, object> _entry in classNameCounts){string className = _entry.Key;
+            foreach(var _entry in classNameCounts){string className = _entry.Key;
                 int count = classNameCounts[className];
                 Pool pool = new Pool(count, factory, className);
                 pools[className] = pool;}
