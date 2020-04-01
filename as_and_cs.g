@@ -165,8 +165,7 @@ statement := ts?,
     / (ts?, SEMICOLON)
 
 block := LBRACE, !, statement_place, ts?, RBRACE
-return_expression := ts?, RETURN, (ts, 
-    conditional_expression / expression)?
+return_expression := ts?, RETURN, ts, (conditional_expression / expression)?
 RETURN := "return"
 primary_expression := return_expression / delete_expression / throw_expression / data_declaration / expression
 throw_expression := ts?, THROW, ts, NEW, ts?, ERROR, ts?, LPAREN, ts?, expression, ts?, RPAREN
