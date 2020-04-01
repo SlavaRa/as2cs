@@ -86,7 +86,10 @@ argument_declaration := argument_initialized / argument_declared
 member_argument_declaration := member_argument_initialized / member_argument_declared
 argument_initializer := ts?, ASSIGN, ts?, !, assignment_value
 member_argument_initializer := ts?, ASSIGN, ts?, !, assignment_value
-assignment_value := conditional_expression / expression
+assignment_value :=
+    list_literal                # new <Type>[]
+    / conditional_expression    # cond ? trueValue : falseValue
+    / expression
 variable_assignment := address, ts?, assignment_operator, ts?, assignment_value
 address := (new_expression / replaced_address / identifier), address_tail*
 function_address := (identifier / bracket_expression, DOT)*, replaced_property / function_identifier
@@ -168,10 +171,10 @@ RETURN := "return"
 primary_expression := return_expression / delete_expression / throw_expression / data_declaration / expression
 throw_expression := ts?, THROW, ts, NEW, ts?, ERROR, ts?, LPAREN, ts?, expression, ts?, RPAREN
 THROW := "throw"
-expression := 
+expression :=
     array_literal
-    / string_hash_literal
     / list_literal
+    / string_hash_literal
     / variable_assignment
     / logical_expression
     / relational_expression
@@ -318,5 +321,5 @@ finally_statement := ts?, "finally"
 
 switch_case_default := switch_statement / case_statement / default_statement
 switch_statement := ts?, "switch", conditional_clause
-case_statement := ts?, "case", ts, address, COLON
+case_statement := ts?, "case", ts, assignment_value, ts?, COLON
 default_statement := ts?, "default", ts?, COLON
