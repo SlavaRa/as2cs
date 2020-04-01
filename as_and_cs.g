@@ -179,7 +179,9 @@ expression :=
     / relational_expression
     / left_hand_side_expression
 
-new_expression := NEW, ts, data_type, ts?, LPAREN, ts?, expression_list?, ts?, RPAREN
+new_expression := new_expression_type, ts?, new_expression_args?
+new_expression_type := NEW, ts, data_type
+new_expression_args := LPAREN, ts?, expression_list?, ts?, RPAREN
 NEW := "new"
 expression_list := ts?, conditional_expression / expression, (ts?, COMMA, ts?, conditional_expression / expression)*
 

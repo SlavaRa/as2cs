@@ -11,6 +11,7 @@ package com.finegamedesign.anagram {
     {
         public function VectorInitialization() {
             var v:* = new <int>[];
+            var v:* = new Vector.<int>;
         }
     }
 }

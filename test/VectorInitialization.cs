@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using /*<com>*/Finegamedesign.Anagram/*<Model>*/;
 using /*<com>*/Finegamedesign.Anagram/*<Controller>*/;
 using /*<com>*/Finegamedesign.Anagram/*<View>*/;
@@ -10,6 +11,7 @@ public class VectorInitialization
 {
     public VectorInitialization() {
         var v = new List<int>(){};
+        var v = new List<int>;
     }
 }
 }
