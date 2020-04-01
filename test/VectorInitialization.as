@@ -10,7 +10,7 @@ package com.finegamedesign.anagram {
     public class VectorInitialization
     {
         public function VectorInitialization() {
-            var v:Vector.<int> = new <int>[];
-            trace(v);
+            var v:* = new <int>[];
+        }
     }
 }
