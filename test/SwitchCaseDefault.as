@@ -25,10 +25,16 @@ package com.finegamedesign.anagram {
                         trace(s);
                     }
                     break;
+                case foo():
+                    break;
                 default:
                     var result:Boolean = value;
                     return result;
             }
+        }
+
+        private function foo():Boolean {
+            return false;
         }
     }
 }

@@ -321,5 +321,5 @@ finally_statement := ts?, "finally"
 
 switch_case_default := switch_statement / case_statement / default_statement
 switch_statement := ts?, "switch", conditional_clause
-case_statement := ts?, "case", ts, address, COLON
+case_statement := ts?, "case", ts, assignment_value, ts?, COLON
 default_statement := ts?, "default", ts?, COLON

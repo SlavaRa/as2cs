@@ -26,10 +26,15 @@ public class SwitchCaseDefault {
                 Debug.Log(s);
             }
             break;
+            case foo():
+            break;
             default:
             bool result = value;
             return result;
         }
+    }
+    private bool Foo() {
+        return false;
     }
 }
 }
